@@ -16,6 +16,9 @@ services:
       - ./src:/var/www/html
     stdin_open: true
     tty: true
+    env_file:
+      - .env
+
 
   mysql:
     build:
@@ -28,11 +31,16 @@ services:
       - ./bin/mysql/data:/var/lib/mysql
       - ./bin/mysql/logs:/var/logs/mysql
       - ./bin/mysql/configs/my.cnf:/etc/mysql/my.cnf
-    environment:
-      MYSQL_ROOT_PASSWORD: abc
-      MYSQL_DATABASE: awais
-      MYSQL_USER: awais
-      MYSQL_PASSWORD: abc
+    env_file:
+      - .env
 
 
-  # phpmyadmin:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    env_file:
+      - .env
+
